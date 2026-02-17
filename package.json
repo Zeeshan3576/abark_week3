@@ -5,11 +5,10 @@
   "license": "ISC",
   "author": "",
   "type": "module",
-  "main": "index.js",
+  "main": "app.js",
   "scripts": {
-    "start": "node index.js",
-    "generate:large-file": "node scripts/generate-large-text-file.js 50 long-doc.txt",
-    "nodemon": "npx nodemon index.js"
+    "start": "node app.js",
+    "nodemon": "npx nodemon app.js"
   },
   "dependencies": {
     "express": "^5.2.1",
