@@ -5,7 +5,6 @@ import { handleUserRoutes } from "./routes/userRoutes.js";
 import { sendJson } from "./lib/http.js";
 
 const port = Number(process.env.PORT) || 3000;
-const host = process.env.HOST;
 
 const server = createServer((req, res) => {
   void routeRequest(req, res);
