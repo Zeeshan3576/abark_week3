@@ -1,6 +1,8 @@
 import { createServer } from "node:http";
 
 import { handleFileRoutes } from "./routes/fileRoutes.js";
+import { handleUserRoutes } from "./routes/userRoutes.js";
+import { sendJson } from "./lib/http.js";
 
 const port = Number(process.env.PORT) || 3000;
 const host = process.env.HOST;
@@ -18,9 +20,16 @@ async function routeRequest(req, res) {
         message: "OK",
         endpoints: {
           streamFile: "GET /file/stream",
+          createUser: "POST /users",
+          listUsers: "GET /users",
+          getUser: "GET /users/:id",
+          deleteUser: "DELETE /users/:id",
         },
       });
     }
+
+    const handledUsers = await handleUserRoutes(req, res);
+    if (handledUsers) return;
 
     const handled = await handleFileRoutes(req, res);
     if (handled) return;
@@ -38,15 +47,6 @@ async function routeRequest(req, res) {
 
     sendJson(res, statusCode, { error: message });
   }
-}
-
-function sendJson(res, statusCode, body) {
-  const payload = JSON.stringify(body);
-
-  res.statusCode = statusCode;
-  res.setHeader("Content-Type", "application/json; charset=utf-8");
-  res.setHeader("Content-Length", Buffer.byteLength(payload));
-  res.end(payload);
 }
 
 server.on("error", (err) => {

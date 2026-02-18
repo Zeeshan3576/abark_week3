@@ -8,10 +8,20 @@
   "main": "app.js",
   "scripts": {
     "start": "node app.js",
-    "nodemon": "npx nodemon app.js"
+    "dev": "nodemon app.js"
   },
   "dependencies": {
+    "@prisma/adapter-better-sqlite3": "^7.4.0",
+    "@prisma/client": "^7.4.0",
+    "dotenv": "^17.3.1",
     "express": "^5.2.1",
     "nodemon": "^3.1.11"
+  },
+  "devDependencies": {
+    "@types/better-sqlite3": "^7.6.13",
+    "@types/node": "^25.2.3",
+    "prisma": "^7.4.0",
+    "tsx": "^4.21.0",
+    "typescript": "^5.9.3"
   }
 }

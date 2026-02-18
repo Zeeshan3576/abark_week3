@@ -25,3 +25,7 @@ coverage/
 Thumbs.db
 .idea/
 .vscode/
+
+/generated/prisma
+
+/dev.db
