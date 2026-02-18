@@ -54,13 +54,6 @@ server.on("error", (err) => {
   process.exitCode = 1;
 });
 
-const displayHost = host || "localhost";
-if (host) {
-  server.listen(port, host, () => {
-    console.log(`Server listening on http://${displayHost}:${port}`);
-  });
-} else {
-  server.listen(port, () => {
-    console.log(`Server listening on http://${displayHost}:${port}`);
-  });
-}
+server.listen(port, () => {
+  console.log(`Server listening on http://localhost:${port}`);
+});
