@@ -10,8 +10,18 @@ datasource db {
 }
 
 model User {
-  id    Int     @id @default(autoincrement())
-  name  String
-  email String  @unique
-  role  String  @default("USER")
+  id           Int    @id @default(autoincrement())
+  name         String
+  email        String @unique
+  passwordHash String @default("")
+  roleId       Int
+  role         Role   @relation(fields: [roleId], references: [id], onDelete: Restrict, onUpdate: Cascade)
+
+  @@index([roleId])
+}
+
+model Role {
+  id    Int    @id @default(autoincrement())
+  name  String @unique
+  users User[]
 }

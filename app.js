@@ -1,6 +1,7 @@
 import { createServer } from "node:http";
 
 import { handleFileRoutes } from "./routes/fileRoutes.js";
+import { handleAuthRoutes } from "./routes/authRoutes.js";
 import { handleUserRoutes } from "./routes/userRoutes.js";
 import { sendJson } from "./lib/http.js";
 
@@ -18,6 +19,8 @@ async function routeRequest(req, res) {
       return sendJson(res, 200, {
         message: "OK",
         endpoints: {
+          register: "POST /auth/register",
+          login: "POST /auth/login",
           streamFile: "GET /file/stream",
           createUser: "POST /users",
           listUsers: "GET /users",
@@ -26,6 +29,9 @@ async function routeRequest(req, res) {
         },
       });
     }
+
+    const handledAuth = await handleAuthRoutes(req, res);
+    if (handledAuth) return;
 
     const handledUsers = await handleUserRoutes(req, res);
     if (handledUsers) return;
