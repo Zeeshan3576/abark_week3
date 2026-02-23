@@ -3,6 +3,7 @@ import {
   deleteUser,
   getUser,
   getUsers,
+  uploadMyProfileImage,
 } from "../controllers/userController.js";
 import {
   createHttpError,
@@ -30,6 +31,18 @@ export async function handleUserRoutes(req, res) {
     }
 
     sendMethodNotAllowed(res, ["GET", "POST"]);
+    return true;
+  }
+
+  if (pathname === "/users/me/profile-image") {
+    await requireAuth(req);
+
+    if (req.method === "POST") {
+      await uploadMyProfileImage(req, res);
+      return true;
+    }
+
+    sendMethodNotAllowed(res, ["POST"]);
     return true;
   }
 

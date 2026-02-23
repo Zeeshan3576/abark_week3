@@ -26,6 +26,8 @@ async function routeRequest(req, res) {
           listUsers: "GET /users",
           getUser: "GET /users/:id",
           deleteUser: "DELETE /users/:id",
+          uploadProfileImage: "POST /users/me/profile-image",
+          getUploadedImage: "GET /uploads/:filename",
         },
       });
     }

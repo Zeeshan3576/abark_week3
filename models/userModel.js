@@ -6,6 +6,7 @@ const publicUserSelect = {
   id: true,
   name: true,
   email: true,
+  profileImagePath: true,
   role: {
     select: {
       name: true,
@@ -18,6 +19,7 @@ const authUserSelect = {
   name: true,
   email: true,
   passwordHash: true,
+  profileImagePath: true,
   role: {
     select: {
       name: true,
@@ -40,6 +42,7 @@ function toPublicUser(user) {
     id: user.id,
     name: user.name,
     email: user.email,
+    profileImagePath: user.profileImagePath,
     role: user.role.name,
   };
 }
@@ -51,6 +54,7 @@ function toAuthUser(user) {
     name: user.name,
     email: user.email,
     passwordHash: user.passwordHash,
+    profileImagePath: user.profileImagePath,
     role: user.role.name,
   };
 }
@@ -151,6 +155,21 @@ export async function deleteUserById(id) {
       where: { id },
       select: publicUserSelect,
     });
+    return toPublicUser(user);
+  } catch (err) {
+    if (err?.code === "P2025") return null;
+    throw err;
+  }
+}
+
+export async function updateUserProfileImagePath(id, profileImagePath) {
+  try {
+    const user = await prisma.user.update({
+      where: { id },
+      data: { profileImagePath },
+      select: publicUserSelect,
+    });
+
     return toPublicUser(user);
   } catch (err) {
     if (err?.code === "P2025") return null;

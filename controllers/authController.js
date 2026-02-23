@@ -71,6 +71,7 @@ export async function login(req, res) {
       id: user.id,
       name: user.name,
       email: user.email,
+      profileImagePath: user.profileImagePath,
       role: user.role,
     },
     token,
