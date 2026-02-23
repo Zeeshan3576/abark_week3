@@ -26,3 +26,36 @@ model Role {
   name  String @unique
   users User[]
 }
+
+model Intern {
+  id               Int      @id @default(autoincrement())
+  name             String
+  email            String   @unique
+  profileImagePath String?
+  createdAt        DateTime @default(now())
+  updatedAt        DateTime @updatedAt
+  tasks            Task[]
+}
+
+model Task {
+  id                     Int        @id @default(autoincrement())
+  title                  String
+  description            String?
+  status                 TaskStatus @default(PENDING)
+  attachmentPath         String?
+  attachmentOriginalName String?
+  attachmentMimeType     String?
+  internId               Int
+  intern                 Intern     @relation(fields: [internId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  createdAt              DateTime   @default(now())
+  updatedAt              DateTime   @updatedAt
+
+  @@index([internId])
+  @@index([status])
+}
+
+enum TaskStatus {
+  PENDING
+  IN_PROGRESS
+  COMPLETED
+}

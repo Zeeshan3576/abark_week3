@@ -3,6 +3,8 @@ import { createServer } from "node:http";
 import { handleFileRoutes } from "./routes/fileRoutes.js";
 import { handleAuthRoutes } from "./routes/authRoutes.js";
 import { handleUserRoutes } from "./routes/userRoutes.js";
+import { handleInternRoutes } from "./routes/internRoutes.js";
+import { handleTaskRoutes } from "./routes/taskRoutes.js";
 import { sendJson } from "./lib/http.js";
 
 const port = Number(process.env.PORT) || 3000;
@@ -28,6 +30,18 @@ async function routeRequest(req, res) {
           deleteUser: "DELETE /users/:id",
           uploadProfileImage: "POST /users/me/profile-image",
           getUploadedImage: "GET /uploads/:filename",
+          createIntern: "POST /interns",
+          listInterns: "GET /interns",
+          getIntern: "GET /interns/:id",
+          deleteIntern: "DELETE /interns/:id (ADMIN)",
+          uploadInternProfileImage: "POST /interns/:id/profile-image (ADMIN)",
+          assignTask: "POST /tasks (ADMIN)",
+          listTasks: "GET /tasks",
+          getTask: "GET /tasks/:id",
+          updateTaskStatus: "PATCH /tasks/:id/status",
+          deleteTask: "DELETE /tasks/:id (ADMIN)",
+          uploadTaskAttachment: "POST /tasks/:id/attachment (ADMIN)",
+          streamTaskAttachment: "GET /tasks/:id/attachment/stream",
         },
       });
     }
@@ -37,6 +51,12 @@ async function routeRequest(req, res) {
 
     const handledUsers = await handleUserRoutes(req, res);
     if (handledUsers) return;
+
+    const handledInterns = await handleInternRoutes(req, res);
+    if (handledInterns) return;
+
+    const handledTasks = await handleTaskRoutes(req, res);
+    if (handledTasks) return;
 
     const handled = await handleFileRoutes(req, res);
     if (handled) return;
